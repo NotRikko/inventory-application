@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TFT Inventory</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% include navbar %>
+    <div class="main">
+    <h1>Rarity Form</h1>
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input 
+                type="text" 
+                name="name" 
+                required 
+                value="<% typeof rarity === 'undefined' ? '' : rarity.name %>"
+            />
+            <label for="description">Cost: </label>
+            <input 
+                type="number"
+                name='description'
+                required
+                value="<% typeof rarity === 'undefined' ? '' : rarity.cost %>"
+            />
+            <button type="submit">Submit</button>
+        </form> 
+    </div>
+    <% if(typeof errors !== 'undefined') { %>
+        <% errors.forEach((error) => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    <% } %>
+  </body>
+</html>

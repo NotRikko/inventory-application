@@ -11,11 +11,13 @@ exports.rarity_list = asyncHandler(async (req, res, next) => {
 })
 
 exports.rarity_detail = asyncHandler(async (req, res, next) => {
-    
+    const rarity = await Rarity.findOne({ name: req.params.id }).exec();
+
+    res.render('rarity_detail', { rarity: rarity });
 })
 
 exports.rarity_create_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Author create GET");
+    res.render('rarity_form');
 });
   
 exports.rarity_create_post = asyncHandler(async (req, res, next) => {
