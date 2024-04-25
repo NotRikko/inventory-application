@@ -64,7 +64,7 @@ exports.unit_create_post = [
     body('image', 'Please put an image URL')
     .trim()
     .isLength({ min: 1 })
-    .escape(),
+    .isURL(),
 
     asyncHandler(async (req, res, next) => {
         const errors = validationResult(req);
@@ -72,7 +72,7 @@ exports.unit_create_post = [
         const unit = new Unit({
             name: req.body.name,
             origin: req.body.origin,
-            rarity: req.body.rarity,
+            cost: req.body.rarity,
             amount: req.body.amount,
             description: req.body.description,
             image: req.body.image,
