@@ -14,37 +14,51 @@
                 type="text" 
                 name="name" 
                 required 
-                value="<% typeof unit === 'undefined' ? '' : rarity.name %>"
+                value="<%= typeof unit === 'undefined' ? '' : unit.name %>"
             />
             <label for="origin">Origin: </label>
-            <input 
-                type="text"
-                name='origin'
-                required
-                value="<% typeof unit === 'undefined' ? '' : unit.origin.name %>"
-            />
-            <label for="cost">Cost:</label>
-            <input 
-                type="number" 
-                name="cost" 
-                required 
-                value="<% typeof unit === 'undefined' ? '' : unit.rarity.cost %>"
-            />
+            <select name="origin" required>
+                <% origins.forEach((origin) => { %>
+                    <% if(typeof unit !== 'undefined') { %>
+                        <% if(origin._id.toString() === unit.origin._id.toString()) { %>
+                            <option value="<%= origin._id %>" selected><%= origin.name %></option>
+                        <% } else { %>
+                            <option value='<%= origin._id %>'><%= origin.name %></option>
+                        <% } %>
+                    <% } else { %>
+                        <option value='<%= origin._id %>'><%= origin.name %></option>
+                    <% } %>
+                <% }) %>
+            </select>
+            <label for="rarity">Cost:</label>
+            <select name="rarity">
+                <% rarities.forEach((rarity) => { %>
+                    <% if(typeof unit !== 'undefined') { %>
+                        <% if(rarity._id.toString() === unit.rarity._id.toString()) { %>
+                            <option value="<%= rarity._id %>" selected><%= rarity.name %></option>
+                        <% } else { %>
+                            <option value='<%= rarity._id %>'><%= rarity.name %></option>
+                        <% } %>
+                    <% } else { %>
+                        <option value='<%= rarity._id %>'><%= rarity.name %></option>
+                    <% } %>
+                <% }) %>
+            </select>
             <label for="amount">Amount:</label>
             <input 
                 type="number" 
                 name="amount" 
                 required 
-                value="<% typeof unit === 'undefined' ? '' : unit.amount %>"
+                value="<%= typeof unit === 'undefined' ? '' : unit.amount %>"
             />
             <label for="description">Description:</label>
-            <textarea required value="<% typeof unit === 'undefined' ? '' : unit.description %>"></textarea>
+            <textarea name='description' required><%= typeof unit === 'undefined' ? '' : unit.description %></textarea>
             <label for="image">ImageURL:</label>
             <input 
                 type="text" 
                 name="image" 
                 required 
-                value="<% typeof unit === 'undefined' ? '' : unit.image %>"
+                value="<%= typeof unit === 'undefined' ? '' : unit.image %>"
             />
             <button type="submit">Submit</button>
         </form> 
