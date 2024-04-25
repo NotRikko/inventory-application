@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TFT Inventory</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% include navbar %>
+    <div class="main">
+    <h1>Unit Form</h1>
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input 
+                type="text" 
+                name="name" 
+                required 
+                value="<% typeof unit === 'undefined' ? '' : rarity.name %>"
+            />
+            <label for="origin">Origin: </label>
+            <input 
+                type="text"
+                name='origin'
+                required
+                value="<% typeof unit === 'undefined' ? '' : unit.origin.name %>"
+            />
+            <label for="cost">Cost:</label>
+            <input 
+                type="number" 
+                name="cost" 
+                required 
+                value="<% typeof unit === 'undefined' ? '' : unit.rarity.cost %>"
+            />
+            <label for="amount">Amount:</label>
+            <input 
+                type="number" 
+                name="amount" 
+                required 
+                value="<% typeof unit === 'undefined' ? '' : unit.amount %>"
+            />
+            <label for="description">Description:</label>
+            <textarea required value="<% typeof unit === 'undefined' ? '' : unit.description %>"></textarea>
+            <label for="image">ImageURL:</label>
+            <input 
+                type="text" 
+                name="image" 
+                required 
+                value="<% typeof unit === 'undefined' ? '' : unit.image %>"
+            />
+            <button type="submit">Submit</button>
+        </form> 
+    </div>
+    <% if(typeof errors !== 'undefined') { %>
+        <% errors.forEach((error) => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    <% } %>
+  </body>
+</html>

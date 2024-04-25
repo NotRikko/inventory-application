@@ -27,7 +27,7 @@ exports.unit_detail = asyncHandler(async (req, res, next) => {
 })
 
 exports.unit_create_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Author create GET");
+    res.render('unit_form');
   });
   
 exports.unit_create_post = asyncHandler(async (req, res, next) => {
