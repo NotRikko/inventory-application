@@ -6,6 +6,15 @@
   </head>
   <body>
     <% include navbar %>
-    <h1>Rarities</h1>
+    <div class="main">
+      <h1>Rarities</h1>
+      <% if(rarity_list.length) { %>
+        <ul class="bodyList">
+          <% rarity_list.forEach((rarity) => { %>
+            <li><a href ="<%= rarity.url %>"><%= rarity.name %></a></li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
   </body>
 </html>

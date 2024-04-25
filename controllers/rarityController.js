@@ -2,6 +2,11 @@ const Rarity = require('../models/rarity');
 const asyncHandler = require('express-async-handler');
 
 exports.rarity_list = asyncHandler(async (req, res, next) => {
+    const allRarities = await Rarity.find({}, 'name cost')
+    .sort({ name: 1 })
+    .exec();
+
+    res.render('rarities', { rarity_list: allRarities} )
     
 })
 

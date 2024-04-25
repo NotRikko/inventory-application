@@ -9,7 +9,7 @@ const UnitSchema = new Schema({
     },
     origin: {
         type: Schema.Types.ObjectId,
-        ref: "Origin",
+        ref: "Category",
         required: true,
     },
     cost: {
@@ -32,7 +32,7 @@ const UnitSchema = new Schema({
 });
 
 UnitSchema.virtual('url').get(function () {
-    return `units/${this.name}`
+    return `unit/${this.name}`
 });
 
 module.exports = mongoose.model('Unit', UnitSchema)

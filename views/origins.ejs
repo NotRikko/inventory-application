@@ -6,6 +6,15 @@
   </head>
   <body>
     <% include navbar %>
-    <h1>Origins</h1>
+    <div class="main">
+      <h1>Origins</h1>
+      <% if(origin_list.length) { %>
+        <ul class="bodyList">
+          <% origin_list.forEach((origin) => { %>
+            <li><a href ="<%= origin.url %>"><%= origin.name %></a></li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
   </body>
 </html>

@@ -2,11 +2,28 @@ const Unit = require('../models/unit');
 const asyncHandler = require('express-async-handler');
 
 exports.unit_list = asyncHandler(async (req, res, next) => {
-    
+    const allUnits = await Unit.find({}, 'name origin cost amount image description')
+    .sort({ origin: 1 })
+    .populate('origin cost')
+    .exec();
+
+    res.render('units', { unit_list: allUnits });
 })
 
 exports.unit_detail = asyncHandler(async (req, res, next) => {
-    
+    const unit = await Unit.findOne({ name: req.params.id })
+    .populate('origin cost')
+    .exec();
+
+    if(unit === null) {
+        const err = new Error('Unit not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render('unit_detail', {
+        unit: unit,
+    })
 })
 
 exports.unit_create_get = asyncHandler(async (req, res, next) => {
