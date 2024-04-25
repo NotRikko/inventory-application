@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TFT Inventory</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% include navbar %>
+    <div class="main">
+    <h1>Origin Form</h1>
+        <form method="POST">
+            <label for="name">Name:</label>
+            <input 
+                type="text" 
+                name="name" 
+                required 
+                value="<% typeof origin === 'undefined' ? '' : origin.name %>"
+            />
+            <label for="description">Description:</label>
+            <textarea required value="<% typeof origin === 'undefined' ? '' : origin.description %>"></textarea>
+            <button type="submit">Submit</button>
+        </form> 
+    </div>
+    <% if(typeof errors !== 'undefined') { %>
+        <% errors.forEach((error) => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    <% } %>
+  </body>
+</html>

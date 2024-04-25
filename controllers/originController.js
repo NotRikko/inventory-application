@@ -1,5 +1,6 @@
 const Origin = require('../models/origin');
 const asyncHandler = require('express-async-handler');
+const { body, validationResult } = require('express-validator');
 
 exports.origin_list = asyncHandler(async (req, res, next) => {
     const allOrigins = await Origin.find({}, "name description")
@@ -10,16 +11,58 @@ exports.origin_list = asyncHandler(async (req, res, next) => {
 });
 
 exports.origin_detail = asyncHandler(async (req, res, next) => {
-    
-})
+    const origin = await Origin.findOne( { name: req.params.id })
+    .exec();
+
+    if(origin === null) {
+        const err = new Error('Origin not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render('origin_detail', { origin: origin })
+});
 
 exports.origin_create_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Author create GET");
+    res.render('origin_form')
 });
   
-exports.origin_create_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Author create POST");
-});
+exports.origin_create_post = [
+    body('name', 'Origin name must contain at least 3 characters')
+    .trim()
+    .isLength( { min: 3 } )
+    .escape(),
+    body('description', 'Please use a proper description')
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+    asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+        const origin = new Origin({
+            name: req.body.name,
+            description: req.body.description,
+        })
+        if(!errors.isEmpty()) {
+            res.render('origin_form', {
+                name: 'name',
+                description: description,
+                errors: errors.array(),
+            })
+            return;
+        } else {
+            const originExists = await Origin.findOne( { name: req.body.name })
+            .exec();
+            if(originExists) {
+                res.redirect(originExists.url);
+            } else {
+                await origin.save();
+                res.redirect(origin.url);
+            }
+        }
+    })
+   
+]
 
 exports.origin_delete_get = asyncHandler(async (req, res, next) => {
     res.send("NOT IMPLEMENTED: Author delete GET");

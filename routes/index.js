@@ -10,13 +10,14 @@ router.get('/', function(req, res, next) {
 });
 
 //Origin Routes
-router.get('/origins', origin_controller.origin_list);
-
-router.get('/origin/:id', origin_controller.origin_detail);
 
 router.get("/origin/create", origin_controller.origin_create_get);
 
 router.post("/origin/create", origin_controller.origin_create_post);
+
+router.get('/origins', origin_controller.origin_list);
+
+router.get('/origin/:id', origin_controller.origin_detail);
 
 router.get("/origin/:id/delete", origin_controller.origin_delete_get);
 

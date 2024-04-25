@@ -49,3 +49,8 @@ ul {
   width: 80px;
   height: 80px;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+}
