@@ -30,9 +30,9 @@ exports.origin_create_get = asyncHandler(async (req, res, next) => {
 exports.origin_create_post = [
     body('name', 'Origin name must contain at least 3 characters')
     .trim()
-    .isLength( { min: 3 } )
+    .isLength({ min: 3 })
     .escape(),
-    body('description', 'Please use a proper description')
+    body('description', 'Description can not be empty.')
     .trim()
     .isLength({ min: 1 })
     .escape(),
@@ -45,13 +45,12 @@ exports.origin_create_post = [
         })
         if(!errors.isEmpty()) {
             res.render('origin_form', {
-                name: 'name',
-                description: description,
+                origin: origin,
                 errors: errors.array(),
             })
             return;
         } else {
-            const originExists = await Origin.findOne( { name: req.body.name })
+            const originExists = await Origin.findOne( { name: { '$regex': req.body.name, $options: 'i'} })
             .exec();
             if(originExists) {
                 res.redirect(originExists.url);
