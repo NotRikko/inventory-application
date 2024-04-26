@@ -14,10 +14,10 @@
                 type="text" 
                 name="name" 
                 required 
-                value="<% typeof origin === 'undefined' ? '' : origin.name %>"
+                value="<%= typeof origin === 'undefined' ? '' : origin.name %>"
             />
             <label for="description">Description:</label>
-            <textarea name='description' required><% typeof origin === 'undefined' ? '' : origin.description %></textarea>
+            <textarea name='description' required><%= typeof origin === 'undefined' ? '' : origin.description %></textarea>
             <button type="submit">Submit</button>
         </form> 
     </div>

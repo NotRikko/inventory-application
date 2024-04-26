@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TFT Inventory</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% include navbar %>
+    <div class="main">
+        <h1>Do you really want to delete this unit?</h1> 
+        <h1><%= unit.name %></h1>
+        <img src="<%= unit.image %>"/>
+        <h2><%= unit.origin.name %></h2>
+        <h2><%= unit.cost.cost %></h2>
+        <h2><%= unit.amount %></h2>
+        <p><%= unit.description %></p>
+        <form method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+  </body>
+</html>

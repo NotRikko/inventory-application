@@ -55,9 +55,9 @@ router.get("/unit/:id/delete", unit_controller.unit_delete_get);
 
 router.post("/unit/:id/delete", unit_controller.unit_delete_post);
 
-router.get("/unit:id/update", unit_controller.unit_update_get);
+router.get("/unit/:id/update", unit_controller.unit_update_get);
 
-router.post("/unit:id/update", unit_controller.unit_update_post);
+router.post("/unit/:id/update", unit_controller.unit_update_post);
 
 router.get('/units', unit_controller.unit_list);
 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TFT Inventory</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <% include navbar %>
+    <div class="main">
+        <h1>Are you sure you want to delete this origin?</h1>
+        <h1><%= origin.name %></h1>
+        <p><%= origin.description %></p>
+        <p>Please delete the following units before deleting this origin.</p>
+        <div>
+            <h4>Units</h4>
+            <% allUnitsInOrigin.forEach((unit) => { %>
+                <div>
+                    <img src="<%= unit.image %>">
+                    <a href="<%= unit.url %>"><%= unit.name %></a>
+                </div>
+            <% }) %>
+        </div>
+        
+        <form method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+  </body>
+</html>

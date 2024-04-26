@@ -32,7 +32,7 @@ const UnitSchema = new Schema({
 });
 
 UnitSchema.virtual('url').get(function () {
-    return `/unit/${this.name}`
+    return `/unit/${this._id}`
 });
 
 module.exports = mongoose.model('Unit', UnitSchema)

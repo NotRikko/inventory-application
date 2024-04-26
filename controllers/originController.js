@@ -1,4 +1,5 @@
 const Origin = require('../models/origin');
+const Unit = require('../models/unit');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 
@@ -11,7 +12,7 @@ exports.origin_list = asyncHandler(async (req, res, next) => {
 });
 
 exports.origin_detail = asyncHandler(async (req, res, next) => {
-    const origin = await Origin.findOne( { name: req.params.id })
+    const origin = await Origin.findOne( { _id: req.params.id })
     .exec();
 
     if(origin === null) {
@@ -64,17 +65,79 @@ exports.origin_create_post = [
 ]
 
 exports.origin_delete_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Author delete GET");
+    const [origin, allUnitsInOrigin] = await Promise.all([
+        Origin.findById(req.params.id).exec(),
+        Unit.find( {origin: req.params.id }, 'name image').exec(),
+    ]);
+
+    if (origin === null) {
+        res.redirect('/origins')
+    }
+
+    res.render('origin_delete', { 
+        origin: origin,
+        allUnitsInOrigin: allUnitsInOrigin,
+    });
 });
 
 exports.origin_delete_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Author delete POST");
+    const [origin, allUnitsInOrigin] = await Promise.all([
+        Origin.findById(req.params.id).exec(),
+        Unit.find( {origin: req.params.id }, 'name image').exec(),
+    ]);
+
+    if (allUnitsInOrigin.length > 0) {
+        res.render('origin_delete', {
+            origin: origin,
+            allUnitsInOrigin: allUnitsInOrigin,
+        });
+        return;
+    } else {
+        await Origin.findByIdAndDelete(req.params.id);
+        res.redirect('/origins')
+    }
 });
 
 exports.origin_update_get = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Author update GET");
+    const origin = await Origin.findOne({ _id: req.params.id }).exec();
+
+    if(origin === null) {
+        const err = new Error('Origin not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render('origin_form', { origin: origin });
 });
 
-exports.origin_update_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED: Author update POST");
-});
+exports.origin_update_post = [
+    body('name', 'Origin name must contain at least 3 characters')
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+    body('description', 'Description can not be empty.')
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+    asyncHandler(async (req, res, next) => {
+        const errors = validationResult(req);
+        const origin = new Origin({
+            _id: req.params.id,
+            name: req.body.name,
+            description: req.body.description,
+        });
+        if(!errors.isEmpty()) {
+            res.render('origin_form', {
+                origin: origin,
+                errors: errors.array(),
+            })
+            return
+        }   else  {
+            const updatedOrigin = await Origin.findOneAndUpdate({ _id: req.params.id }, origin, {});
+            res.redirect(updatedOrigin.url);
+            };
+        }),
+];
+
+

@@ -34,7 +34,7 @@
             <select name="rarity">
                 <% rarities.forEach((rarity) => { %>
                     <% if(typeof unit !== 'undefined') { %>
-                        <% if(rarity._id.toString() === unit.rarity._id.toString()) { %>
+                        <% if(rarity._id.toString() === unit.cost._id.toString()) { %>
                             <option value="<%= rarity._id %>" selected><%= rarity.name %></option>
                         <% } else { %>
                             <option value='<%= rarity._id %>'><%= rarity.name %></option>

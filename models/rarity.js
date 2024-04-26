@@ -15,7 +15,7 @@ const RaritySchema = new Schema({
 })
 
 RaritySchema.virtual('url').get(function () {
-    return `/rarity/${this.name}`
+    return `/rarity/${this._id}`
 });
 
 module.exports = mongoose.model('Rarity', RaritySchema);
